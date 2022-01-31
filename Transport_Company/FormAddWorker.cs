@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Controller.Logic;
+using Controller.Models;
+using Models.VehiclesList;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,11 +15,65 @@ namespace Transport_Company
 {
     public partial class FormAddWorker : Form
     {
-        public FormAddWorker()
+        public int Id { set { id = value; } }
+        private int? id;
+        private readonly VehicleLogic vehicleLogic = new VehicleLogic();
+        private readonly WorkerLogic workerLogic=new WorkerLogic();
+        public FormAddWorker(int id)
         {
+            if (id != 0)
+                this.id = id;
             InitializeComponent();
         }
 
-     
+        private void FormAddWorker_Load(object sender, EventArgs e)
+        {
+            loadData();
+        }
+        private void loadData()
+        {
+            List<Vehicle> list = vehicleLogic.Read(null);
+            comboBox1.DisplayMember = "Name";
+            comboBox1.ValueMember = "Id";
+            comboBox1.DataSource = list;
+            comboBox1.SelectedItem = null;
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            DialogResult=DialogResult.Cancel;
+            this.Close();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(maskedTextBoxName.Text) && string.IsNullOrEmpty(maskedTextBoxSurName.Text))
+            {
+                MessageBox.Show("Заполните строки", "Ошибка", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
+                return;
+            }
+            try
+            {
+                workerLogic.CreateOrUpdate(new Worker
+                {
+                    Id = id,
+                    Name = maskedTextBoxName.Text,
+                    Surname = maskedTextBoxSurName.Text,
+                    Vehicle = (Vehicle)comboBox1.SelectedItem
+                });
+                MessageBox.Show("Сохранение прошло успешно", "Сообщение",
+               MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
+                DialogResult = DialogResult.Cancel;
+            }
+            Close();
+        }
     }
 }

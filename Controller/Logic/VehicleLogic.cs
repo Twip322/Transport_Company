@@ -16,26 +16,29 @@ namespace Controller.Logic
                rec.Name == model.Name && rec.Id != model.Id);
                 if (element != null)
                 {
-                    throw new Exception("Уже есть компонент с таким названием");
-                }
-                if (model.Id.HasValue)
-                {
-                    element = context.Vehicles.FirstOrDefault(rec => rec.Id ==
-                   model.Id);
-                    if (element == null)
-                    {
-                        throw new Exception("Элемент не найден");
-                    }
+
                 }
                 else
                 {
-                    element = new Vehicle();
-                    context.Vehicles.Add(element);
+                    if (model.Id.HasValue)
+                    {
+                        element = context.Vehicles.FirstOrDefault(rec => rec.Id ==
+                       model.Id);
+                        if (element == null)
+                        {
+                            throw new Exception("Элемент не найден");
+                        }
+                    }
+                    else
+                    {
+                        element = new Vehicle();
+                        context.Vehicles.Add(element);
+                    }
+                    element.Name = model.Name;
+                    element.Speed = model.Speed;
+                    element.Carrying = model.Carrying;
+                    context.SaveChanges();
                 }
-                element.Name = model.Name;
-                element.Speed = model.Speed;
-                element.Carrying = model.Carrying;
-                context.SaveChanges();
             }
         }
 

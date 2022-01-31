@@ -28,23 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewWorkers = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnupd = new System.Windows.Forms.Button();
             this.btnChange = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewWorkers)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dataGridViewWorkers
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 39);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(458, 363);
-            this.dataGridView1.TabIndex = 0;
+            this.dataGridViewWorkers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewWorkers.Location = new System.Drawing.Point(12, 39);
+            this.dataGridViewWorkers.Name = "dataGridViewWorkers";
+            this.dataGridViewWorkers.Size = new System.Drawing.Size(458, 363);
+            this.dataGridViewWorkers.TabIndex = 0;
             // 
             // label1
             // 
@@ -63,6 +63,7 @@
             this.btnAdd.TabIndex = 2;
             this.btnAdd.Text = "Добавить";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnupd
             // 
@@ -72,6 +73,7 @@
             this.btnupd.TabIndex = 3;
             this.btnupd.Text = "Обновить";
             this.btnupd.UseVisualStyleBackColor = true;
+            this.btnupd.Click += new System.EventHandler(this.btnupd_Click);
             // 
             // btnChange
             // 
@@ -81,6 +83,7 @@
             this.btnChange.TabIndex = 4;
             this.btnChange.Text = "Изменить";
             this.btnChange.UseVisualStyleBackColor = true;
+            this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
             // 
             // btnDelete
             // 
@@ -111,10 +114,10 @@
             this.Controls.Add(this.btnupd);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridViewWorkers);
             this.Name = "FormWorkers";
             this.Text = "Работники";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewWorkers)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -122,7 +125,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridViewWorkers;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnupd;

@@ -115,11 +115,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(307, 40);
+            this.label2.Location = new System.Drawing.Point(335, 40);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(148, 13);
+            this.label2.Size = new System.Drawing.Size(120, 13);
             this.label2.TabIndex = 7;
-            this.label2.Text = "Свободные дальнобойщики";
+            this.label2.Text = "Свободные работники";
             // 
             // txtWorkers
             // 
@@ -137,6 +137,7 @@
             this.btnWorker.TabIndex = 9;
             this.btnWorker.Text = "Добавить работника";
             this.btnWorker.UseVisualStyleBackColor = true;
+            this.btnWorker.Click += new System.EventHandler(this.btnWorker_Click);
             // 
             // MainForm
             // 
@@ -156,6 +157,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Главная форма";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
