@@ -76,5 +76,21 @@ namespace Controller.Logic
                 .ToList();
             }
         }
+        public Vehicle ReadById(int id)
+        {
+            using (var context = new DataBase.DataBase())
+            {
+                return context.Vehicles
+                .Where(rec => rec.Id == id)
+                .Select(rec => new Vehicle
+                {
+                    Id = rec.Id,
+                    Name = rec.Name,
+                    Speed = rec.Speed,
+                    Carrying = rec.Carrying
+                })
+                .SingleOrDefault();
+            }
+        }
     }
 }

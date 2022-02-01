@@ -34,7 +34,7 @@ namespace Controller.Logic
                 }
                 element.Name = model.Name;
                 element.Surname = model.Surname;
-                element.Vehicle = model.Vehicle;
+                element.VehicleId = model.VehicleId;
                 context.SaveChanges();
             }
         }
@@ -68,7 +68,7 @@ namespace Controller.Logic
                     Id = rec.Id,
                     Name = rec.Name,
                     Surname = rec.Surname,
-                    Vehicle=rec.Vehicle
+                    VehicleId=rec.VehicleId
                 })
                 .ToList();
             }

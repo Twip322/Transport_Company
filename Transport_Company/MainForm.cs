@@ -16,6 +16,8 @@ namespace Transport_Company
     public partial class MainForm : Form
     {
         private readonly VehicleLogic vehicleLogic = new VehicleLogic();
+        private readonly WorkerLogic workerLogic = new WorkerLogic();
+
         public MainForm()
         {
             InitializeComponent();
@@ -26,11 +28,10 @@ namespace Transport_Company
             FormWorkers formWorkers = new FormWorkers();
             formWorkers.Show();
         }
-
-        private void MainForm_Load(object sender, EventArgs e)
+        private void loadData()
         {
             Vehicles veh = new Vehicles();
-            foreach(var vehicle in veh.getVehicle.Values.ToList())
+            foreach (var vehicle in veh.getVehicle.Values.ToList())
             {
                 Vehicle model = new Vehicle();
                 model.Name = vehicle.Item1;
@@ -38,6 +39,11 @@ namespace Transport_Company
                 model.Carrying = vehicle.Item3;
                 vehicleLogic.CreateOrUpdate(model);
             }
+            txtWorkers.Text = workerLogic.Read(null).Count.ToString();
+        }
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            loadData();
         }
     }
 }

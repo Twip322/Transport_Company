@@ -1,4 +1,5 @@
 ﻿using Controller.Logic;
+using Controller.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +14,7 @@ namespace Transport_Company
 {
     public partial class FormWorkers : Form
     {
-
+        private readonly VehicleLogic vehicleLogic = new VehicleLogic();
         private readonly WorkerLogic workerLogic= new WorkerLogic();
         public FormWorkers()
         {
@@ -39,9 +40,16 @@ namespace Transport_Company
                     dataGridViewWorkers.DataSource = list;
                     dataGridViewWorkers.Columns[0].Visible = false;
                     dataGridViewWorkers.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridViewWorkers.Columns[3].Visible = false;
                     dataGridViewWorkers.MultiSelect = false;
+                    dataGridViewWorkers.Columns.Add("VehicleName","VehicleName");
+                }
+                foreach (DataGridViewRow column in dataGridViewWorkers.Rows)
+                {
+                    column.Cells[4].Value = vehicleLogic.ReadById((int)column.Cells[3].Value).Name;
                 }
             }
+            
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
@@ -58,12 +66,45 @@ namespace Transport_Company
 
         private void btnChange_Click(object sender, EventArgs e)
         {
-            FormAddWorker formAddWorker = new FormAddWorker(dataGridViewWorkers.SelectedRows[0].Index);
+            FormAddWorker formAddWorker = new FormAddWorker((int)dataGridViewWorkers.SelectedRows[0].Cells[0].Value);
             formAddWorker.ShowDialog();
             if (formAddWorker.DialogResult == DialogResult.OK)
             {
                 loadData();
             }
+        }
+
+        private void FormWorkers_Load(object sender, EventArgs e)
+        {
+            loadData();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewWorkers.SelectedRows.Count == 1)
+            {
+                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
+               MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    int id =
+                   Convert.ToInt32(dataGridViewWorkers.SelectedRows[0].Cells[0].Value);
+                    try
+                    {
+                        workerLogic.Delete(new Worker { Id = id });
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                       MessageBoxIcon.Error);
+                    }
+                    loadData();
+                }
+            }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

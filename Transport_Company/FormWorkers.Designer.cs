@@ -93,6 +93,7 @@
             this.btnDelete.TabIndex = 5;
             this.btnDelete.Text = "Удалить";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnClose
             // 
@@ -102,6 +103,7 @@
             this.btnClose.TabIndex = 6;
             this.btnClose.Text = "Назад";
             this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // FormWorkers
             // 
@@ -117,6 +119,7 @@
             this.Controls.Add(this.dataGridViewWorkers);
             this.Name = "FormWorkers";
             this.Text = "Работники";
+            this.Load += new System.EventHandler(this.FormWorkers_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewWorkers)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
