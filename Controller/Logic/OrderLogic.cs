@@ -36,7 +36,7 @@ namespace Controller.Logic
                 element.CustomerSurName = model.CustomerSurName;
                 element.Address = model.Address;
                 element.Cargo = model.Cargo;
-                element.Worker = model.Worker;
+                element.WorkerId = model.WorkerId;
                 element.startTime = model.startTime;
                 element.endTime = model.endTime;
                 context.SaveChanges();
@@ -74,7 +74,7 @@ namespace Controller.Logic
                     CustomerSurName=rec.CustomerSurName,
                     Cargo=rec.Cargo,
                     Address=rec.Address,
-                    Worker=rec.Worker,
+                    WorkerId=rec.WorkerId,
                     startTime=rec.startTime,
                     endTime=rec.endTime
                 })

@@ -45,5 +45,13 @@ namespace Transport_Company
         {
             loadData();
         }
+
+        private void btnAddOrd_Click(object sender, EventArgs e)
+        {
+            if(Int32.Parse(txtWorkers.Text)>0)
+            {
+
+            }
+        }
     }
 }

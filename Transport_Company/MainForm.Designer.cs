@@ -84,6 +84,7 @@
             this.btnAddOrd.TabIndex = 3;
             this.btnAddOrd.Text = "Добавить новый заказ";
             this.btnAddOrd.UseVisualStyleBackColor = true;
+            this.btnAddOrd.Click += new System.EventHandler(this.btnAddOrd_Click);
             // 
             // btnUpdOrd
             // 

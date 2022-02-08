@@ -137,6 +137,12 @@
     <Compile Include="FormAddWorker.Designer.cs">
       <DependentUpon>FormAddWorker.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormOrder.Designer.cs">
+      <DependentUpon>FormOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormWorkers.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,6 +159,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormAddWorker.resx">
       <DependentUpon>FormAddWorker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormOrder.resx">
+      <DependentUpon>FormOrder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormWorkers.resx">
       <DependentUpon>FormWorkers.cs</DependentUpon>

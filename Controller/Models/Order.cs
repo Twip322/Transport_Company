@@ -11,8 +11,8 @@ namespace Controller.Models
         public string CustomerName { get; set; }
         public string CustomerSurName { get; set; }
         public string Address { get; set; }
-        public string Cargo { get; set; }
-        public Worker Worker { get; set; }
+        public virtual List<string> Cargo { get; set; }
+        public int WorkerId { get; set; }
         public DateTime startTime { get; set; }
         public DateTime endTime { get; set; }
     }
