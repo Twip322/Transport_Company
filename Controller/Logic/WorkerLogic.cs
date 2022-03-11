@@ -73,5 +73,18 @@ namespace Controller.Logic
                 .ToList();
             }
         }
+        public Worker ReadById(int id)
+        {
+            using (var context = new DataBase.DataBase())
+            {
+                return context.Workers
+                .Where(rec => rec.Id == id)
+                .Select(rec => new Worker
+                {
+                    VehicleId = rec.VehicleId
+                })
+                .SingleOrDefault();
+            }
+        }
     }
 }

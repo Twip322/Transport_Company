@@ -16,6 +16,7 @@ namespace Transport_Company
     {
         private readonly WorkerLogic workerLogic = new WorkerLogic();
         private readonly VehicleLogic vehicleLogic = new VehicleLogic();
+        private int CargoWeight = 0;
         public FormOrder()
         {
             InitializeComponent();
@@ -26,7 +27,7 @@ namespace Transport_Company
             comboBoxWorkers.DisplayMember = "Name";
             comboBoxWorkers.ValueMember = "Id";
             comboBoxWorkers.DataSource = list;
-            comboBoxWorkers.SelectedItem = null;
+            comboBoxWorkers.SelectedIndex = 0;
 
         }
         private void FormOrder_Load(object sender, EventArgs e)
@@ -36,16 +37,18 @@ namespace Transport_Company
 
         private void comboBoxWorkers_SelectedIndexChanged(object sender, EventArgs e)
         {
-            textBoxWorkerWeight.Text = vehicleLogic.ReadById(comboBoxWorkers.SelectedIndex).Carrying.ToString();
+            textBoxWorkerWeight.Text = vehicleLogic.ReadById(workerLogic.ReadById(comboBoxWorkers.SelectedIndex+1).VehicleId)
+                .Carrying.ToString();
         }
 
         private void buttonAddCargo_Click(object sender, EventArgs e)
         {
-            if ((maskedTextBoxCargo.Text != "" && maskedTextBoxCargo.Text.Equals(null)) && (maskedTextBoxWeight.Text != "" && maskedTextBoxWeight.Text.Equals(null)))
+            if (!((maskedTextBoxCargo.Text == "" || maskedTextBoxCargo.Text.Equals(null)) && (maskedTextBoxWeight.Text == "" || maskedTextBoxWeight.Text.Equals(null))))
             {
-                if(Int32.Parse(maskedTextBoxWeight.Text)> Int32.Parse(textBoxWorkerWeight.Text))
+                if(CargoWeight+Int32.Parse(maskedTextBoxWeight.Text)< Int32.Parse(textBoxWorkerWeight.Text))
                 {
-
+                    listBoxCargos.Items.Add(maskedTextBoxCargo.Text);
+                    CargoWeight += Int32.Parse(maskedTextBoxWeight.Text);
                 }
                 else
                 {

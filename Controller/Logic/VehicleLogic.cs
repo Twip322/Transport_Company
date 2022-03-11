@@ -76,7 +76,7 @@ namespace Controller.Logic
                 .ToList();
             }
         }
-        public Vehicle ReadById(int id)
+        public Vehicle ReadById(int? id)
         {
             using (var context = new DataBase.DataBase())
             {

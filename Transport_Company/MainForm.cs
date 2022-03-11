@@ -50,7 +50,8 @@ namespace Transport_Company
         {
             if(Int32.Parse(txtWorkers.Text)>0)
             {
-
+                FormOrder form = new FormOrder();
+                form.Show();
             }
         }
     }

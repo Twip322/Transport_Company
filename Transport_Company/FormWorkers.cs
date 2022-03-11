@@ -37,6 +37,7 @@ namespace Transport_Company
                 var list = workerLogic.Read(null);
                 if (list != null)
                 {
+                    dataGridViewWorkers.Columns.Clear();
                     dataGridViewWorkers.DataSource = list;
                     dataGridViewWorkers.Columns[0].Visible = false;
                     dataGridViewWorkers.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -44,6 +45,7 @@ namespace Transport_Company
                     dataGridViewWorkers.MultiSelect = false;
                     dataGridViewWorkers.Columns.Add("VehicleName","VehicleName");
                 }
+               
                 foreach (DataGridViewRow column in dataGridViewWorkers.Rows)
                 {
                     column.Cells[4].Value = vehicleLogic.ReadById((int)column.Cells[3].Value).Name;

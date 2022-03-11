@@ -6,7 +6,7 @@ namespace Controller.Models
 {
     public class Cargo
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Name { get; set; }
         public int Weight { get; set; }
     }

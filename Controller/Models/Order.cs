@@ -11,6 +11,7 @@ namespace Controller.Models
         public string CustomerName { get; set; }
         public string CustomerSurName { get; set; }
         public string Address { get; set; }
+        [NotMapped]
         public virtual List<string> Cargo { get; set; }
         public int WorkerId { get; set; }
         public DateTime startTime { get; set; }
