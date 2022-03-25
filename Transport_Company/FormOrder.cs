@@ -60,5 +60,11 @@ namespace Transport_Company
                 MessageBox.Show("Заполните название и вес груза");
             }
         }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            listBoxCargos.Items.RemoveAt(listBoxCargos.SelectedIndex);
+        }
+
     }
 }

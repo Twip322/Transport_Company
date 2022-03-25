@@ -41,6 +41,7 @@
             this.maskedTextBoxWeight = new System.Windows.Forms.MaskedTextBox();
             this.buttonOrder = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // maskedTextBoxName
@@ -93,7 +94,7 @@
             // 
             // textBoxWorkerWeight
             // 
-            this.textBoxWorkerWeight.Location = new System.Drawing.Point(288, 279);
+            this.textBoxWorkerWeight.Location = new System.Drawing.Point(288, 280);
             this.textBoxWorkerWeight.Name = "textBoxWorkerWeight";
             this.textBoxWorkerWeight.Size = new System.Drawing.Size(75, 20);
             this.textBoxWorkerWeight.TabIndex = 6;
@@ -150,11 +151,22 @@
             this.buttonCancel.Text = "Отменить";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(288, 170);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 13;
+            this.btnDelete.Text = "Удалить";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
             // FormOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(376, 405);
+            this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOrder);
             this.Controls.Add(this.maskedTextBoxWeight);
@@ -191,5 +203,6 @@
         private System.Windows.Forms.MaskedTextBox maskedTextBoxWeight;
         private System.Windows.Forms.Button buttonOrder;
         private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.Button btnDelete;
     }
 }
