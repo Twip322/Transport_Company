@@ -13,6 +13,7 @@ namespace Controller.Models
         public string Address { get; set; }
         [NotMapped]
         public virtual List<string> Cargo { get; set; }
+        public virtual List<int> CargoWeight { get; set; }
         public int WorkerId { get; set; }
         public DateTime startTime { get; set; }
         public DateTime endTime { get; set; }

@@ -34,6 +34,7 @@ namespace Controller.Logic
                 }
                 element.Name = model.Name;
                 element.Surname = model.Surname;
+                element.IsFree = model.IsFree;
                 element.VehicleId = model.VehicleId;
                 context.SaveChanges();
             }
@@ -68,7 +69,8 @@ namespace Controller.Logic
                     Id = rec.Id,
                     Name = rec.Name,
                     Surname = rec.Surname,
-                    VehicleId=rec.VehicleId
+                    VehicleId=rec.VehicleId,
+                    IsFree=rec.IsFree
                 })
                 .ToList();
             }
@@ -84,6 +86,19 @@ namespace Controller.Logic
                     VehicleId = rec.VehicleId
                 })
                 .SingleOrDefault();
+            }
+        }
+        public List<Worker> ReadByIsFree(bool IsFree)
+        {
+            using (var context = new DataBase.DataBase())
+            {
+                return context.Workers
+                .Where(rec => rec.IsFree==IsFree)
+                .Select(rec => new Worker
+                {
+                    VehicleId = rec.VehicleId
+                })
+                .ToList()
             }
         }
     }
