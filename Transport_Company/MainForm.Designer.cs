@@ -94,6 +94,7 @@
             this.btnUpdOrd.TabIndex = 4;
             this.btnUpdOrd.Text = "Обновить заказы";
             this.btnUpdOrd.UseVisualStyleBackColor = true;
+            this.btnUpdOrd.Click += new System.EventHandler(this.btnUpdOrd_Click);
             // 
             // btnOrdReady
             // 

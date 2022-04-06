@@ -10,14 +10,10 @@ namespace Controller.Logic
     {
         public void CreateOrUpdate(Order model)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 Order element = context.Orders.FirstOrDefault(rec =>
                rec.Id != model.Id);
-                if (element != null)
-                {
-                    throw new Exception("Уже есть компонент с таким названием");
-                }
                 if (model.Id.HasValue)
                 {
                     element = context.Orders.FirstOrDefault(rec => rec.Id ==
@@ -36,6 +32,7 @@ namespace Controller.Logic
                 element.CustomerSurName = model.CustomerSurName;
                 element.Address = model.Address;
                 element.Cargo = model.Cargo;
+                element.CargoId = model.CargoId;
                 element.WorkerId = model.WorkerId;
                 element.startTime = model.startTime;
                 element.endTime = model.endTime;
@@ -45,7 +42,7 @@ namespace Controller.Logic
 
         public void Delete(Order model)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 Order element = context.Orders.FirstOrDefault(rec => rec.Id ==
                model.Id);
@@ -63,7 +60,7 @@ namespace Controller.Logic
 
         public List<Order> Read(Order model)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 return context.Orders
                 .Where(rec => model == null || rec.Id == model.Id)
@@ -73,6 +70,7 @@ namespace Controller.Logic
                     CustomerName = rec.CustomerName,
                     CustomerSurName=rec.CustomerSurName,
                     Cargo=rec.Cargo,
+                    CargoId=rec.CargoId,
                     Address=rec.Address,
                     WorkerId=rec.WorkerId,
                     startTime=rec.startTime,

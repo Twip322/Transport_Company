@@ -1,5 +1,6 @@
 ﻿using Controller.Logic;
 using Controller.Models;
+using Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +20,8 @@ namespace Transport_Company
         private readonly OrderLogic orderLogic = new OrderLogic();
         private readonly WorkerLogic workerLogic = new WorkerLogic();
         private readonly VehicleLogic vehicleLogic = new VehicleLogic();
+        private readonly CargoLogic cargoLogic = new CargoLogic();
+
         public FormOrder()
         {
             InitializeComponent();
@@ -40,8 +43,10 @@ namespace Transport_Company
 
         private void comboBoxWorkers_SelectedIndexChanged(object sender, EventArgs e)
         {
-            textBoxWorkerWeight.Text = vehicleLogic.ReadById(workerLogic.ReadById(comboBoxWorkers.SelectedIndex + 1).VehicleId)
+            
+                textBoxWorkerWeight.Text = vehicleLogic.ReadById(workerLogic.ReadById((int)comboBoxWorkers.SelectedValue).VehicleId)
                 .Carrying.ToString();
+            
         }
 
         private void buttonAddCargo_Click(object sender, EventArgs e)
@@ -50,9 +55,9 @@ namespace Transport_Company
             {
                 dataGridViewCargos.Rows.Add(new string[] { maskedTextBoxCargo.Text, maskedTextBoxWeight.Text });
                 int AllWeight=0;
-                for(int i =0;i<dataGridViewCargos.Rows.Count;i++)
+                for(int i =0;i<dataGridViewCargos.Rows.Count-1;i++)
                 {
-                    AllWeight += (int)dataGridViewCargos.Rows[i].Cells[1].Value;
+                    AllWeight += Int32.Parse(dataGridViewCargos.Rows[i].Cells[1].Value.ToString());
                 }
                 maskedTextBoxAllWeight.Text = AllWeight.ToString();
             }
@@ -71,28 +76,44 @@ namespace Transport_Company
         {
             if(Int32.Parse(maskedTextBoxAllWeight.Text)<=Int32.Parse(textBoxWorkerWeight.Text))
             {
-                List<string> cargo=new List<string>();
-                List<int> cargoWeight = new List<int>();
-                for (int i = 0; i < dataGridViewCargos.Rows.Count; i++)
+                List<string> cargos=new List<string>();
+                List<int> cargosWeight = new List<int>();
+                for (int i = 0; i < dataGridViewCargos.Rows.Count-1; i++)
                 {
-                    cargo.Add((string)dataGridViewCargos.Rows[i].Cells[1].Value);
+                    cargos.Add((string)dataGridViewCargos.Rows[i].Cells[0].Value);
+                    cargosWeight.Add(Int32.Parse(dataGridViewCargos.Rows[i].Cells[1].Value.ToString()));
                 }
                 try
                 {
+                    for (int i = 0; i < dataGridViewCargos.Rows.Count - 1; i++)
+                    {
+                        cargoLogic.CreateOrUpdate(new Cargo
+                        {
+                            Name = (string)dataGridViewCargos.Rows[i].Cells[0].Value,
+                            Weight = Int32.Parse(dataGridViewCargos.Rows[i].Cells[1].Value.ToString()),
+                        });
+                    }
                     orderLogic.CreateOrUpdate(new Order
                     {
-                        Id = id,
+                        Id=id,
                         CustomerName = maskedTextBoxName.Text,
                         CustomerSurName = maskedTextBoxSurName.Text,
                         Address = maskedTextBoxAddress.Text,
                         WorkerId = (int)comboBoxWorkers.SelectedValue,
                         startTime = DateTime.Now,
+                        orderEnum=OrderEnum.Заказ_оформлен,
                     });
+                    
+
                 }
                 catch(Exception ex)
                 {
                     throw ex;
                 }
+            }
+            else
+            {
+                MessageBox.Show("Данные транспорт не сможет перевезти груз");
             }
         }
     }

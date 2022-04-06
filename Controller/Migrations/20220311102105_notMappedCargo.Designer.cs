@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Controller.Migrations
 {
-    [DbContext(typeof(DataBase.DataBase))]
+    [DbContext(typeof(DataBase.DataBaseContext))]
     [Migration("20220311102105_notMappedCargo")]
     partial class notMappedCargo
     {

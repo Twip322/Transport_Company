@@ -10,7 +10,7 @@ namespace Controller.Logic
     {
         public void CreateOrUpdate(Worker model)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 Worker element = context.Workers.FirstOrDefault(rec =>
                rec.Name == model.Name && rec.Id != model.Id);
@@ -42,7 +42,7 @@ namespace Controller.Logic
 
         public void Delete(Worker model)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 Worker element = context.Workers.FirstOrDefault(rec => rec.Id ==
                model.Id);
@@ -60,7 +60,7 @@ namespace Controller.Logic
 
         public List<Worker> Read(Worker model)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 return context.Workers
                 .Where(rec => model == null || rec.Id == model.Id)
@@ -77,7 +77,7 @@ namespace Controller.Logic
         }
         public Worker ReadById(int id)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 return context.Workers
                 .Where(rec => rec.Id == id)
@@ -90,15 +90,18 @@ namespace Controller.Logic
         }
         public List<Worker> ReadByIsFree(bool IsFree)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 return context.Workers
-                .Where(rec => rec.IsFree==IsFree)
+                .Where(rec => rec.IsFree == IsFree)
                 .Select(rec => new Worker
                 {
-                    VehicleId = rec.VehicleId
+                    VehicleId = rec.VehicleId,
+                    Id=rec.Id,
+                    IsFree=rec.IsFree,
+                    Name=rec.Name
                 })
-                .ToList()
+                .ToList();
             }
         }
     }

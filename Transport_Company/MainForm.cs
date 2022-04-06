@@ -17,6 +17,8 @@ namespace Transport_Company
     {
         private readonly VehicleLogic vehicleLogic = new VehicleLogic();
         private readonly WorkerLogic workerLogic = new WorkerLogic();
+        private readonly OrderLogic orderLogic = new OrderLogic();
+
 
         public MainForm()
         {
@@ -40,6 +42,8 @@ namespace Transport_Company
                 vehicleLogic.CreateOrUpdate(model);
             }
             txtWorkers.Text = workerLogic.Read(null).Count.ToString();
+            var list = orderLogic.Read(null);
+            dataGridView1.DataSource = list;
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -53,6 +57,11 @@ namespace Transport_Company
                 FormOrder form = new FormOrder();
                 form.Show();
             }
+        }
+
+        private void btnUpdOrd_Click(object sender, EventArgs e)
+        {
+            loadData();
         }
     }
 }

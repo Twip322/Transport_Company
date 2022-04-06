@@ -10,7 +10,7 @@ namespace Controller.Logic
     {
         public void CreateOrUpdate(Vehicle model)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 Vehicle element = context.Vehicles.FirstOrDefault(rec =>
                rec.Name == model.Name && rec.Id != model.Id);
@@ -44,7 +44,7 @@ namespace Controller.Logic
 
         public void Delete(Vehicle model)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 Vehicle element = context.Vehicles.FirstOrDefault(rec => rec.Id ==
                model.Id);
@@ -62,7 +62,7 @@ namespace Controller.Logic
 
         public List<Vehicle> Read(Vehicle model)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 return context.Vehicles
                 .Where(rec => model == null || rec.Id == model.Id)
@@ -78,7 +78,7 @@ namespace Controller.Logic
         }
         public Vehicle ReadById(int? id)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 return context.Vehicles
                 .Where(rec => rec.Id == id)

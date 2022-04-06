@@ -60,7 +60,8 @@ namespace Transport_Company
                     Id = id,
                     Name = maskedTextBoxName.Text,
                     Surname = maskedTextBoxSurName.Text,
-                    VehicleId = vehicleLogic.ReadById(comboBox1.SelectedIndex+1).Id
+                    VehicleId = vehicleLogic.ReadById(comboBox1.SelectedIndex+1).Id,
+                    IsFree=true
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение",
                MessageBoxButtons.OK, MessageBoxIcon.Information);
