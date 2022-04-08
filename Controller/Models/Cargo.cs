@@ -11,7 +11,6 @@ namespace Controller.Models
         public int? Id { get; set; }
         public string Name { get; set; }
         public int Weight { get; set; }
-        [ForeignKey("ComponentId")]
         public virtual List<OrderCargo> orderCargo { get; set; }
     }
 }

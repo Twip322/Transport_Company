@@ -20,5 +20,6 @@ namespace Controller.DataBase
         public virtual DbSet<Worker> Workers { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Cargo> Cargos { get; set; }
+        public virtual DbSet<OrderCargo> OrderCargos { get; set; }
     }
 }

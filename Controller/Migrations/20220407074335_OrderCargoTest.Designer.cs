@@ -4,14 +4,16 @@ using Controller.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Controller.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    partial class DataBaseModelSnapshot : ModelSnapshot
+    [Migration("20220407074335_OrderCargoTest")]
+    partial class OrderCargoTest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,8 +28,6 @@ namespace Controller.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name");
-
-                    b.Property<int?>("OrderId");
 
                     b.Property<int>("Weight");
 
@@ -44,8 +44,6 @@ namespace Controller.Migrations
 
                     b.Property<string>("Address");
 
-                    b.Property<int?>("CargoId");
-
                     b.Property<string>("CustomerName");
 
                     b.Property<string>("CustomerSurName");
@@ -60,11 +58,28 @@ namespace Controller.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CargoId")
-                        .IsUnique()
-                        .HasFilter("[CargoId] IS NOT NULL");
-
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Controller.Models.OrderCargo", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CargoId");
+
+                    b.Property<int?>("OrderId");
+
+                    b.Property<int?>("Weight");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CargoId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderCargos");
                 });
 
             modelBuilder.Entity("Controller.Models.Vehicle", b =>
@@ -103,11 +118,15 @@ namespace Controller.Migrations
                     b.ToTable("Workers");
                 });
 
-            modelBuilder.Entity("Controller.Models.Order", b =>
+            modelBuilder.Entity("Controller.Models.OrderCargo", b =>
                 {
-                    b.HasOne("Controller.Models.Cargo", "Cargo")
-                        .WithOne("order")
-                        .HasForeignKey("Controller.Models.Order", "CargoId");
+                    b.HasOne("Controller.Models.Cargo", "cargo")
+                        .WithMany("orderCargo")
+                        .HasForeignKey("CargoId");
+
+                    b.HasOne("Controller.Models.Order", "order")
+                        .WithMany("orderCargo")
+                        .HasForeignKey("OrderId");
                 });
 #pragma warning restore 612, 618
         }

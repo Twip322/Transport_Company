@@ -4,22 +4,35 @@ using Controller.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Controller.Migrations
 {
-    [DbContext(typeof(DataBase.DataBaseContext))]
-    [Migration("20220131093136_test")]
-    partial class test
+    [DbContext(typeof(DataBaseContext))]
+    partial class DataBaseContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Controller.Models.Cargo", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("Weight");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cargos");
+                });
 
             modelBuilder.Entity("Controller.Models.Order", b =>
                 {
@@ -29,23 +42,42 @@ namespace Controller.Migrations
 
                     b.Property<string>("Address");
 
-                    b.Property<string>("Cargo");
-
                     b.Property<string>("CustomerName");
 
                     b.Property<string>("CustomerSurName");
 
-                    b.Property<int?>("WorkerId");
+                    b.Property<int>("WorkerId");
 
                     b.Property<DateTime>("endTime");
+
+                    b.Property<int>("orderEnum");
 
                     b.Property<DateTime>("startTime");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("WorkerId");
-
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Controller.Models.OrderCargo", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CargoId");
+
+                    b.Property<int?>("OrderId");
+
+                    b.Property<int?>("Weight");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CargoId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderCargos");
                 });
 
             modelBuilder.Entity("Controller.Models.Vehicle", b =>
@@ -71,6 +103,8 @@ namespace Controller.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("IsFree");
+
                     b.Property<string>("Name");
 
                     b.Property<string>("Surname");
@@ -82,11 +116,15 @@ namespace Controller.Migrations
                     b.ToTable("Workers");
                 });
 
-            modelBuilder.Entity("Controller.Models.Order", b =>
+            modelBuilder.Entity("Controller.Models.OrderCargo", b =>
                 {
-                    b.HasOne("Controller.Models.Worker", "Worker")
-                        .WithMany()
-                        .HasForeignKey("WorkerId");
+                    b.HasOne("Controller.Models.Cargo", "cargo")
+                        .WithMany("orderCargo")
+                        .HasForeignKey("CargoId");
+
+                    b.HasOne("Controller.Models.Order", "order")
+                        .WithMany("orderCargo")
+                        .HasForeignKey("OrderId");
                 });
 #pragma warning restore 612, 618
         }

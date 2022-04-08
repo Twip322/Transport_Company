@@ -1,5 +1,6 @@
 ﻿using Controller.Logic;
 using Controller.Models;
+using Models.Models;
 using Models.VehiclesList;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Transport_Company
         private readonly VehicleLogic vehicleLogic = new VehicleLogic();
         private readonly WorkerLogic workerLogic = new WorkerLogic();
         private readonly OrderLogic orderLogic = new OrderLogic();
-
+        private readonly CargoLogic cargoLogic = new CargoLogic();
 
         public MainForm()
         {
@@ -44,6 +45,10 @@ namespace Transport_Company
             txtWorkers.Text = workerLogic.Read(null).Count.ToString();
             var list = orderLogic.Read(null);
             dataGridView1.DataSource = list;
+            dataGridView1.Columns[0].Visible = false;
+            dataGridView1.Columns[4].Visible = false;
+            dataGridView1.Columns[7].Visible = false;
+            dataGridView1.Columns[1].AutoSizeMode=DataGridViewAutoSizeColumnMode.Fill;
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -62,6 +67,36 @@ namespace Transport_Company
         private void btnUpdOrd_Click(object sender, EventArgs e)
         {
             loadData();
+        }
+
+        private void btnOrdReady_Click(object sender, EventArgs e)
+        {
+            int id =Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
+            orderLogic.CreateOrUpdate(new OrderModel { Id=id,orderEnum=Models.Enums.OrderEnum.Доставлен});
+        }
+
+        private void btnDelOrd_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 1)
+            {
+                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
+               MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    int id =
+                   Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
+                    try
+                    {
+                        orderLogic.Delete(new OrderModel { Id = id });
+                        cargoLogic.Delete();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                       MessageBoxIcon.Error);
+                    }
+                    loadData();
+                }
+            }
         }
     }
 }

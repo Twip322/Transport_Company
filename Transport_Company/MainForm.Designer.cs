@@ -104,6 +104,7 @@
             this.btnOrdReady.TabIndex = 5;
             this.btnOrdReady.Text = "Заказ доставлен";
             this.btnOrdReady.UseVisualStyleBackColor = true;
+            this.btnOrdReady.Click += new System.EventHandler(this.btnOrdReady_Click);
             // 
             // btnDelOrd
             // 
@@ -113,6 +114,7 @@
             this.btnDelOrd.TabIndex = 6;
             this.btnDelOrd.Text = "Удалить заказ";
             this.btnDelOrd.UseVisualStyleBackColor = true;
+            this.btnDelOrd.Click += new System.EventHandler(this.btnDelOrd_Click);
             // 
             // label2
             // 

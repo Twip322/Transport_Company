@@ -1,6 +1,7 @@
 ﻿using Controller.Logic;
 using Controller.Models;
 using Models.Enums;
+using Models.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,6 +22,9 @@ namespace Transport_Company
         private readonly WorkerLogic workerLogic = new WorkerLogic();
         private readonly VehicleLogic vehicleLogic = new VehicleLogic();
         private readonly CargoLogic cargoLogic = new CargoLogic();
+
+        private Dictionary<int?, (string, int?)> orderCargoses=new Dictionary<int?, (string, int?)>();
+
 
         public FormOrder()
         {
@@ -76,24 +80,25 @@ namespace Transport_Company
         {
             if(Int32.Parse(maskedTextBoxAllWeight.Text)<=Int32.Parse(textBoxWorkerWeight.Text))
             {
-                List<string> cargos=new List<string>();
-                List<int> cargosWeight = new List<int>();
-                for (int i = 0; i < dataGridViewCargos.Rows.Count-1; i++)
-                {
-                    cargos.Add((string)dataGridViewCargos.Rows[i].Cells[0].Value);
-                    cargosWeight.Add(Int32.Parse(dataGridViewCargos.Rows[i].Cells[1].Value.ToString()));
-                }
                 try
                 {
+                    int?[] ids=new int?[dataGridViewCargos.Rows.Count - 1];
                     for (int i = 0; i < dataGridViewCargos.Rows.Count - 1; i++)
                     {
-                        cargoLogic.CreateOrUpdate(new Cargo
+                        cargoLogic.CreateOrUpdate(new CargoModel
                         {
                             Name = (string)dataGridViewCargos.Rows[i].Cells[0].Value,
-                            Weight = Int32.Parse(dataGridViewCargos.Rows[i].Cells[1].Value.ToString()),
+                            Weight = Int32.Parse(dataGridViewCargos.Rows[i].Cells[1].Value.ToString())
                         });
+                        ids[i]=(cargoLogic.ReadLast().Id);
                     }
-                    orderLogic.CreateOrUpdate(new Order
+                    foreach(int? id in ids)
+                    {
+                        var cargo = cargoLogic.ReadById(id);
+                        orderCargoses.Add(id, (cargo.Name, cargo.Weight));
+                    }
+
+                    orderLogic.CreateOrUpdate(new OrderModel
                     {
                         Id=id,
                         CustomerName = maskedTextBoxName.Text,
@@ -102,6 +107,7 @@ namespace Transport_Company
                         WorkerId = (int)comboBoxWorkers.SelectedValue,
                         startTime = DateTime.Now,
                         orderEnum=OrderEnum.Заказ_оформлен,
+                        orderCargo=orderCargoses
                     });
                     
 
