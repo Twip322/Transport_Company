@@ -11,6 +11,7 @@ namespace Controller.Models
         public int? Id { get; set; }
         public string Name { get; set; }
         public int Weight { get; set; }
-        public virtual List<OrderCargo> orderCargo { get; set; }
+        [Required]
+        public virtual Order Order { get; set; }
     }
 }

@@ -22,6 +22,7 @@ namespace Transport_Company
         private readonly WorkerLogic workerLogic = new WorkerLogic();
         private readonly VehicleLogic vehicleLogic = new VehicleLogic();
         private readonly CargoLogic cargoLogic = new CargoLogic();
+        private readonly OrderCargoLogic orderCargoLogic = new OrderCargoLogic();
 
         private Dictionary<int?, (string, int?)> orderCargoses=new Dictionary<int?, (string, int?)>();
 
@@ -82,35 +83,31 @@ namespace Transport_Company
             {
                 try
                 {
-                    int?[] ids=new int?[dataGridViewCargos.Rows.Count - 1];
+                    List<Cargo> cargoses = new List<Cargo>(); 
                     for (int i = 0; i < dataGridViewCargos.Rows.Count - 1; i++)
                     {
-                        cargoLogic.CreateOrUpdate(new CargoModel
-                        {
-                            Name = (string)dataGridViewCargos.Rows[i].Cells[0].Value,
-                            Weight = Int32.Parse(dataGridViewCargos.Rows[i].Cells[1].Value.ToString())
+                        cargoses.Add(new Cargo { 
+                            Name=dataGridViewCargos.Rows[i].Cells[0].Value.ToString(),
+                            Weight=Int32.Parse(dataGridViewCargos.Rows[i].Cells[1].Value.ToString()),
                         });
-                        ids[i]=(cargoLogic.ReadLast().Id);
                     }
-                    foreach(int? id in ids)
-                    {
-                        var cargo = cargoLogic.ReadById(id);
-                        orderCargoses.Add(id, (cargo.Name, cargo.Weight));
-                    }
-
-                    orderLogic.CreateOrUpdate(new OrderModel
-                    {
-                        Id=id,
+                    Order orderModel = new Order {
+                        Id = id,
                         CustomerName = maskedTextBoxName.Text,
                         CustomerSurName = maskedTextBoxSurName.Text,
                         Address = maskedTextBoxAddress.Text,
                         WorkerId = (int)comboBoxWorkers.SelectedValue,
                         startTime = DateTime.Now,
-                        orderEnum=OrderEnum.Заказ_оформлен,
-                        orderCargo=orderCargoses
-                    });
-                    
-
+                        orderEnum = OrderEnum.Заказ_оформлен,
+                    };
+                    foreach(Cargo cargo in cargoses)
+                    {
+                        cargo.Order = orderModel;
+                    }
+                    orderModel.orderCargo = cargoses;
+                    orderCargoLogic.Create(orderModel,cargoses);
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
                 }
                 catch(Exception ex)
                 {
@@ -121,6 +118,12 @@ namespace Transport_Company
             {
                 MessageBox.Show("Данные транспорт не сможет перевезти груз");
             }
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
     }
 }

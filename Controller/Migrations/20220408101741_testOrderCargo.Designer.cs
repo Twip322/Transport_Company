@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Controller.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20220407074335_OrderCargoTest")]
-    partial class OrderCargoTest
+    [Migration("20220408101741_testOrderCargo")]
+    partial class testOrderCargo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,9 +29,14 @@ namespace Controller.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<int?>("OrderId")
+                        .IsRequired();
+
                     b.Property<int>("Weight");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Cargos");
                 });
@@ -59,27 +64,6 @@ namespace Controller.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("Controller.Models.OrderCargo", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CargoId");
-
-                    b.Property<int?>("OrderId");
-
-                    b.Property<int?>("Weight");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CargoId");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrderCargos");
                 });
 
             modelBuilder.Entity("Controller.Models.Vehicle", b =>
@@ -118,15 +102,12 @@ namespace Controller.Migrations
                     b.ToTable("Workers");
                 });
 
-            modelBuilder.Entity("Controller.Models.OrderCargo", b =>
+            modelBuilder.Entity("Controller.Models.Cargo", b =>
                 {
-                    b.HasOne("Controller.Models.Cargo", "cargo")
+                    b.HasOne("Controller.Models.Order", "Order")
                         .WithMany("orderCargo")
-                        .HasForeignKey("CargoId");
-
-                    b.HasOne("Controller.Models.Order", "order")
-                        .WithMany("orderCargo")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

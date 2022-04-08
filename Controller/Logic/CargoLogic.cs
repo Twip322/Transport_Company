@@ -40,15 +40,6 @@ namespace Controller.Logic
             using (var context = new DataBase.DataBaseContext())
 
             {
-                List<OrderCargo> ordCars = context.OrderCargos
-                    .Where(rec => rec.OrderId == null)
-                    .Select(rec => new OrderCargo
-                    {
-                        CargoId = rec.CargoId
-                    }).ToList();
-                foreach(OrderCargo ordCar in ordCars)
-                {
-                }
                 Cargo element = context.Cargos.FirstOrDefault(rec => rec.Id ==
                model.Id);
                 if (element != null)

@@ -20,6 +20,7 @@ namespace Transport_Company
         private readonly WorkerLogic workerLogic = new WorkerLogic();
         private readonly OrderLogic orderLogic = new OrderLogic();
         private readonly CargoLogic cargoLogic = new CargoLogic();
+        private readonly ChangeStatusLogic changeStatusLogic = new ChangeStatusLogic();
 
         public MainForm()
         {
@@ -44,11 +45,12 @@ namespace Transport_Company
             }
             txtWorkers.Text = workerLogic.Read(null).Count.ToString();
             var list = orderLogic.Read(null);
+            var listTest = orderLogic.Read(null);
             dataGridView1.DataSource = list;
             dataGridView1.Columns[0].Visible = false;
             dataGridView1.Columns[4].Visible = false;
-            dataGridView1.Columns[7].Visible = false;
-            dataGridView1.Columns[1].AutoSizeMode=DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView1.Columns[8].Visible = false;
+            dataGridView1.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -57,10 +59,14 @@ namespace Transport_Company
 
         private void btnAddOrd_Click(object sender, EventArgs e)
         {
-            if(Int32.Parse(txtWorkers.Text)>0)
+            if (Int32.Parse(txtWorkers.Text) > 0)
             {
                 FormOrder form = new FormOrder();
-                form.Show();
+                form.ShowDialog();
+                if(form.DialogResult==DialogResult.OK)
+                {
+                    loadData();
+                }
             }
         }
 
@@ -69,10 +75,11 @@ namespace Transport_Company
             loadData();
         }
 
-        private void btnOrdReady_Click(object sender, EventArgs e)
+        private void btnInDelivery_Click(object sender, EventArgs e)
         {
-            int id =Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
-            orderLogic.CreateOrUpdate(new OrderModel { Id=id,orderEnum=Models.Enums.OrderEnum.Доставлен});
+            int? id = Int32.Parse(dataGridView1.SelectedRows[0].Cells[0].Value.ToString());
+            changeStatusLogic.DeliveringStarted(new ChangeStatusBind { OrderId = id });
+            loadData();
         }
 
         private void btnDelOrd_Click(object sender, EventArgs e)
@@ -87,7 +94,6 @@ namespace Transport_Company
                     try
                     {
                         orderLogic.Delete(new OrderModel { Id = id });
-                        cargoLogic.Delete();
                     }
                     catch (Exception ex)
                     {
@@ -97,6 +103,27 @@ namespace Transport_Company
                     loadData();
                 }
             }
+        }
+
+        private void btnAccepted_Click(object sender, EventArgs e)
+        {
+            int? id = Int32.Parse(dataGridView1.SelectedRows[0].Cells[0].Value.ToString());
+            changeStatusLogic.TakeOrderInWork(new ChangeStatusBind { OrderId = id });
+            loadData();
+        }
+
+        private void btnDelivered_Click(object sender, EventArgs e)
+        {
+            int? id = Int32.Parse(dataGridView1.SelectedRows[0].Cells[0].Value.ToString());
+            changeStatusLogic.DeliveringEnded(new ChangeStatusBind { OrderId = id });
+            loadData();
+        }
+
+        private void btnPayed_Click(object sender, EventArgs e)
+        {
+            int? id = Int32.Parse(dataGridView1.SelectedRows[0].Cells[0].Value.ToString());
+            changeStatusLogic.DeliveryPayed(new ChangeStatusBind { OrderId = id });
+            loadData();
         }
     }
 }

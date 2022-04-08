@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using Models.Enums;
@@ -16,7 +17,6 @@ namespace Controller.Models
         public DateTime startTime { get; set; }
         public DateTime endTime { get; set; }
         public OrderEnum orderEnum { get; set; }
-        [ForeignKey("OrderId")]
-        public virtual List<OrderCargo> orderCargo { get; set; }
+        public virtual ICollection<Cargo> orderCargo { get; set; }
     }
 }

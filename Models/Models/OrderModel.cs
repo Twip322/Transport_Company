@@ -22,6 +22,6 @@ namespace Models.Models
         public DateTime endTime { get; set; }
         [DisplayName("Статус")]
         public OrderEnum orderEnum { get; set; }
-        public Dictionary<int?,(string,int?)> orderCargo { get; set; }
+        public virtual ICollection<CargoModel> Cargos { get; set; }
     }
 }

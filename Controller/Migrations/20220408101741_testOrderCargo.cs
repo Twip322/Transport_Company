@@ -4,24 +4,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Controller.Migrations
 {
-    public partial class OrderCargoTest : Migration
+    public partial class testOrderCargo : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Cargos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Weight = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cargos", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
@@ -73,56 +59,42 @@ namespace Controller.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderCargos",
+                name: "Cargos",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CargoId = table.Column<int>(nullable: true),
-                    OrderId = table.Column<int>(nullable: true),
-                    Weight = table.Column<int>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Weight = table.Column<int>(nullable: false),
+                    OrderId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderCargos", x => x.Id);
+                    table.PrimaryKey("PK_Cargos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderCargos_Cargos_CargoId",
-                        column: x => x.CargoId,
-                        principalTable: "Cargos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_OrderCargos_Orders_OrderId",
+                        name: "FK_Cargos_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderCargos_CargoId",
-                table: "OrderCargos",
-                column: "CargoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderCargos_OrderId",
-                table: "OrderCargos",
+                name: "IX_Cargos_OrderId",
+                table: "Cargos",
                 column: "OrderId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "OrderCargos");
+                name: "Cargos");
 
             migrationBuilder.DropTable(
                 name: "Vehicles");
 
             migrationBuilder.DropTable(
                 name: "Workers");
-
-            migrationBuilder.DropTable(
-                name: "Cargos");
 
             migrationBuilder.DropTable(
                 name: "Orders");

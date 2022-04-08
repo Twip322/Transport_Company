@@ -48,7 +48,7 @@ namespace Transport_Company
                
                 foreach (DataGridViewRow column in dataGridViewWorkers.Rows)
                 {
-                    column.Cells[4].Value = vehicleLogic.ReadById((int)column.Cells[3].Value).Name;
+                    column.Cells[4].Value = vehicleLogic.ReadById(Int32.Parse(column.Cells[3].Value.ToString())).Name;
                 }
             }
             

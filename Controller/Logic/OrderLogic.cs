@@ -14,59 +14,30 @@ namespace Controller.Logic
         {
             using (var context = new DataBase.DataBaseContext())
             {
-                using (var transaction = context.Database.BeginTransaction())
+                Order element = context.Orders.FirstOrDefault(rec =>
+               rec.Id != model.Id);
+                if (model.Id.HasValue)
                 {
-                    Order element = context.Orders.FirstOrDefault(rec =>
-                   rec.Id != model.Id);
-                    if (model.Id.HasValue)
+                    element = context.Orders.FirstOrDefault(rec => rec.Id ==
+                   model.Id);
+                    if (element == null)
                     {
-                        element = context.Orders.FirstOrDefault(rec => rec.Id ==
-                       model.Id);
-                        if (element == null)
-                        {
-                            throw new Exception("Элемент не найден");
-                        }
+                        throw new Exception("Элемент не найден");
                     }
-                    else
-                    {
-                        element = new Order();
-                        context.Orders.Add(element);
-                    }
-                    element.CustomerName = model.CustomerName;
-                    element.CustomerSurName = model.CustomerSurName;
-                    element.Address = model.Address;
-                    element.WorkerId = model.WorkerId;
-                    element.startTime = model.startTime;
-                    element.endTime = model.endTime;
-                    context.SaveChanges();
-                    if (model.Id.HasValue)
-                    {
-                        var orderCargos = context.OrderCargos.Where(rec => rec.OrderId == model.Id.Value).ToList();
-                        context.OrderCargos.RemoveRange(orderCargos.Where(rec =>
-                        !model.orderCargo.ContainsKey(rec.CargoId)).ToList());
-                        context.SaveChanges();
-                        foreach (var updateCargo in orderCargos)
-                        {
-                            updateCargo.Weight = model.orderCargo[updateCargo.CargoId].Item2;
-
-                            model.orderCargo.Remove(updateCargo.CargoId);
-                        }
-                        context.SaveChanges();
-                    }
-                    // добавили новые
-                    foreach (var pc in model.orderCargo)
-                    {
-                        context.OrderCargos.Add(new OrderCargo
-                        {
-                            OrderId = element.Id,
-                            CargoId = pc.Key,
-                            Weight = pc.Value.Item2
-                        });
-                        context.SaveChanges();
-                    }
-                    transaction.Commit();
                 }
-
+                else
+                {
+                    element = new Order();
+                    context.Orders.Add(element);
+                }
+                element.CustomerName = model.CustomerName;
+                element.CustomerSurName = model.CustomerSurName;
+                element.Address = model.Address;
+                element.WorkerId = model.WorkerId;
+                element.startTime = model.startTime;
+                element.endTime = model.endTime;
+                element.orderEnum = model.orderEnum;
+                context.SaveChanges();
             }
         }
 
@@ -78,7 +49,6 @@ namespace Controller.Logic
                model.Id);
                 if (element != null)
                 {
-                    context.Entry(element).Collection(c => c.orderCargo).Load();
                     context.Orders.Remove(element);
                     context.SaveChanges();
                 }
@@ -106,10 +76,6 @@ namespace Controller.Logic
                     startTime = rec.startTime,
                     endTime = rec.endTime,
                     orderEnum=rec.orderEnum,
-                    orderCargo = context.OrderCargos
-                  .Include(recPC => recPC.cargo)
-                  .Where(recPC => recPC.OrderId == rec.Id)
-                  .ToDictionary(recPC => recPC.CargoId, recPC => (recPC.cargo?.Name, recPC.Weight))
                 })
                 .ToList();
             }
