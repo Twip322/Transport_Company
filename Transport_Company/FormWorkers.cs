@@ -1,5 +1,6 @@
 ﻿using Controller.Logic;
 using Controller.Models;
+using Models.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,13 +43,15 @@ namespace Transport_Company
                     dataGridViewWorkers.Columns[0].Visible = false;
                     dataGridViewWorkers.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     dataGridViewWorkers.Columns[3].Visible = false;
+                    dataGridViewWorkers.Columns[4].Visible = false;
                     dataGridViewWorkers.MultiSelect = false;
-                    dataGridViewWorkers.Columns.Add("VehicleName","VehicleName");
+                    dataGridViewWorkers.Columns.Add("VehicleName","Транспорт");
+                    dataGridViewWorkers.Columns[5].ValueType = typeof(string);
                 }
                
                 foreach (DataGridViewRow column in dataGridViewWorkers.Rows)
                 {
-                    column.Cells[4].Value = vehicleLogic.ReadById((int)column.Cells[3].Value).Name;
+                    column.Cells[5].Value = vehicleLogic.ReadById(Int32.Parse(column.Cells[4].Value.ToString())).Name;
                 }
             }
             
@@ -92,7 +95,7 @@ namespace Transport_Company
                    Convert.ToInt32(dataGridViewWorkers.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        workerLogic.Delete(new Worker { Id = id });
+                        workerLogic.Delete(new WorkerModel { Id = id });
                     }
                     catch (Exception ex)
                     {

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Controller.DataBase
 {
-    public class DataBase:DbContext
+    public class DataBaseContext:DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,5 +19,6 @@ namespace Controller.DataBase
         public virtual DbSet<Vehicle> Vehicles { get; set; }
         public virtual DbSet<Worker> Workers { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Cargo> Cargos { get; set; }
     }
 }

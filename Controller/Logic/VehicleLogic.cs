@@ -1,4 +1,5 @@
 ﻿using Controller.Models;
+using Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,9 @@ namespace Controller.Logic
 {
     public class VehicleLogic
     {
-        public void CreateOrUpdate(Vehicle model)
+        public void CreateOrUpdate(VehicleModel model)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 Vehicle element = context.Vehicles.FirstOrDefault(rec =>
                rec.Name == model.Name && rec.Id != model.Id);
@@ -42,9 +43,9 @@ namespace Controller.Logic
             }
         }
 
-        public void Delete(Vehicle model)
+        public void Delete(VehicleModel model)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 Vehicle element = context.Vehicles.FirstOrDefault(rec => rec.Id ==
                model.Id);
@@ -60,13 +61,13 @@ namespace Controller.Logic
             }
         }
 
-        public List<Vehicle> Read(Vehicle model)
+        public List<VehicleModel> Read(VehicleModel model)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 return context.Vehicles
                 .Where(rec => model == null || rec.Id == model.Id)
-                .Select(rec => new Vehicle
+                .Select(rec => new VehicleModel
                 {
                     Id = rec.Id,
                     Name = rec.Name,
@@ -76,13 +77,13 @@ namespace Controller.Logic
                 .ToList();
             }
         }
-        public Vehicle ReadById(int? id)
+        public VehicleModel ReadById(int? id)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 return context.Vehicles
                 .Where(rec => rec.Id == id)
-                .Select(rec => new Vehicle
+                .Select(rec => new VehicleModel
                 {
                     Id = rec.Id,
                     Name = rec.Name,

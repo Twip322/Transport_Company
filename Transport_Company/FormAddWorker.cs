@@ -1,5 +1,6 @@
 ﻿using Controller.Logic;
 using Controller.Models;
+using Models.Models;
 using Models.VehiclesList;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace Transport_Company
         }
         private void loadData()
         {
-            List<Vehicle> list = vehicleLogic.Read(null);
+            List<VehicleModel> list = vehicleLogic.Read(null);
             comboBox1.DisplayMember = "Name";
             comboBox1.ValueMember = "Id";
             comboBox1.DataSource = list;
@@ -55,12 +56,13 @@ namespace Transport_Company
             }
             try
             {
-                workerLogic.CreateOrUpdate(new Worker
+                workerLogic.CreateOrUpdate(new WorkerModel
                 {
                     Id = id,
                     Name = maskedTextBoxName.Text,
                     Surname = maskedTextBoxSurName.Text,
-                    VehicleId = vehicleLogic.ReadById(comboBox1.SelectedIndex+1).Id
+                    VehicleId = vehicleLogic.ReadById(comboBox1.SelectedIndex+1).Id,
+                    IsFree=true
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение",
                MessageBoxButtons.OK, MessageBoxIcon.Information);

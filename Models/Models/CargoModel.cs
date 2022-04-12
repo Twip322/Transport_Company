@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace Controller.Models
+namespace Models.Models
 {
-    public class Cargo
+    public class CargoModel
     {
         public int? Id { get; set; }
+        [DisplayName("Название")]
         public string Name { get; set; }
+        [DisplayName("Вес")]
         public int Weight { get; set; }
         [Required]
-        public virtual Order Order { get; set; }
+        public OrderModel OrderModel { get; set; }
     }
 }

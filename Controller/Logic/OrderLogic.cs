@@ -3,21 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
+using Models.Models;
 
 namespace Controller.Logic
 {
     public class OrderLogic
     {
-        public void CreateOrUpdate(Order model)
+        public void CreateOrUpdate(OrderModel model)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 Order element = context.Orders.FirstOrDefault(rec =>
                rec.Id != model.Id);
-                if (element != null)
-                {
-                    throw new Exception("Уже есть компонент с таким названием");
-                }
                 if (model.Id.HasValue)
                 {
                     element = context.Orders.FirstOrDefault(rec => rec.Id ==
@@ -35,17 +33,17 @@ namespace Controller.Logic
                 element.CustomerName = model.CustomerName;
                 element.CustomerSurName = model.CustomerSurName;
                 element.Address = model.Address;
-                element.Cargo = model.Cargo;
                 element.WorkerId = model.WorkerId;
                 element.startTime = model.startTime;
                 element.endTime = model.endTime;
+                element.orderEnum = model.orderEnum;
                 context.SaveChanges();
             }
         }
 
-        public void Delete(Order model)
+        public void Delete(OrderModel model)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 Order element = context.Orders.FirstOrDefault(rec => rec.Id ==
                model.Id);
@@ -61,24 +59,47 @@ namespace Controller.Logic
             }
         }
 
-        public List<Order> Read(Order model)
+        public List<OrderModel> Read(OrderModel model)
         {
-            using (var context = new DataBase.DataBase())
+            using (var context = new DataBase.DataBaseContext())
             {
                 return context.Orders
                 .Where(rec => model == null || rec.Id == model.Id)
+                .ToList()
+                .Select(rec => new OrderModel
+                {
+                    Id = rec.Id,
+                    CustomerName = rec.CustomerName,
+                    CustomerSurName = rec.CustomerSurName,
+                    Address = rec.Address,
+                    WorkerId = rec.WorkerId,
+                    startTime = rec.startTime,
+                    endTime = rec.endTime,
+                    orderEnum=rec.orderEnum,
+                })
+                .ToList();
+            }
+        }
+        public Order ReadById(int? id)
+        {
+            using (var context = new DataBase.DataBaseContext())
+            {
+                return context.Orders
+                .Where(rec => rec.Id == id)
+                .ToList()
                 .Select(rec => new Order
                 {
                     Id = rec.Id,
                     CustomerName = rec.CustomerName,
-                    CustomerSurName=rec.CustomerSurName,
-                    Cargo=rec.Cargo,
-                    Address=rec.Address,
-                    WorkerId=rec.WorkerId,
-                    startTime=rec.startTime,
-                    endTime=rec.endTime
+                    CustomerSurName = rec.CustomerSurName,
+                    Address = rec.Address,
+                    WorkerId = rec.WorkerId,
+                    startTime = rec.startTime,
+                    endTime = rec.endTime,
+                    orderEnum = rec.orderEnum,
+                    orderCargo = rec.orderCargo
                 })
-                .ToList();
+                .First();
             }
         }
     }
