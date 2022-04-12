@@ -1,4 +1,5 @@
 ﻿using Controller.Models;
+using Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace Controller.Logic
 {
     public class WorkerLogic
     {
-        public void CreateOrUpdate(Worker model)
+        public void CreateOrUpdate(WorkerModel model)
         {
             using (var context = new DataBase.DataBaseContext())
             {
@@ -40,7 +41,7 @@ namespace Controller.Logic
             }
         }
 
-        public void Delete(Worker model)
+        public void Delete(WorkerModel model)
         {
             using (var context = new DataBase.DataBaseContext())
             {
@@ -58,13 +59,13 @@ namespace Controller.Logic
             }
         }
 
-        public List<Worker> Read(Worker model)
+        public List<WorkerModel> Read(WorkerModel model)
         {
             using (var context = new DataBase.DataBaseContext())
             {
                 return context.Workers
                 .Where(rec => model == null || rec.Id == model.Id)
-                .Select(rec => new Worker
+                .Select(rec => new WorkerModel
                 {
                     Id = rec.Id,
                     Name = rec.Name,
@@ -75,26 +76,30 @@ namespace Controller.Logic
                 .ToList();
             }
         }
-        public Worker ReadById(int id)
+        public WorkerModel ReadById(int id)
         {
             using (var context = new DataBase.DataBaseContext())
             {
                 return context.Workers
                 .Where(rec => rec.Id == id)
-                .Select(rec => new Worker
+                .Select(rec => new WorkerModel
                 {
-                    VehicleId = rec.VehicleId
+                    Id=rec.Id,
+                    VehicleId = rec.VehicleId,
+                    Name=rec.Name,
+                    IsFree=rec.IsFree,
+                    Surname=rec.Surname
                 })
                 .SingleOrDefault();
             }
         }
-        public List<Worker> ReadByIsFree(bool IsFree)
+        public List<WorkerModel> ReadByIsFree()
         {
             using (var context = new DataBase.DataBaseContext())
             {
                 return context.Workers
-                .Where(rec => rec.IsFree == IsFree)
-                .Select(rec => new Worker
+                .Where(rec => rec.IsFree == true)
+                .Select(rec => new WorkerModel
                 {
                     VehicleId = rec.VehicleId,
                     Id=rec.Id,

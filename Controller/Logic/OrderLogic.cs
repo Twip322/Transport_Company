@@ -80,5 +80,27 @@ namespace Controller.Logic
                 .ToList();
             }
         }
+        public Order ReadById(int? id)
+        {
+            using (var context = new DataBase.DataBaseContext())
+            {
+                return context.Orders
+                .Where(rec => rec.Id == id)
+                .ToList()
+                .Select(rec => new Order
+                {
+                    Id = rec.Id,
+                    CustomerName = rec.CustomerName,
+                    CustomerSurName = rec.CustomerSurName,
+                    Address = rec.Address,
+                    WorkerId = rec.WorkerId,
+                    startTime = rec.startTime,
+                    endTime = rec.endTime,
+                    orderEnum = rec.orderEnum,
+                    orderCargo = rec.orderCargo
+                })
+                .First();
+            }
+        }
     }
 }

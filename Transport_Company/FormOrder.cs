@@ -33,7 +33,7 @@ namespace Transport_Company
         }
         private void loadData()
         {
-            List<Worker> list = workerLogic.ReadByIsFree(true);
+            List<WorkerModel> list = workerLogic.ReadByIsFree();
             comboBoxWorkers.DisplayMember = "Name";
             comboBoxWorkers.ValueMember = "Id";
             comboBoxWorkers.DataSource = list;
@@ -106,6 +106,15 @@ namespace Transport_Company
                     }
                     orderModel.orderCargo = cargoses;
                     orderCargoLogic.Create(orderModel,cargoses);
+                    var worker=workerLogic.ReadById(orderModel.WorkerId);
+                    workerLogic.CreateOrUpdate(new WorkerModel
+                    {
+                        Id = worker.Id,
+                        Name = worker.Name,
+                        Surname = worker.Surname,
+                        IsFree = false,
+                        VehicleId = worker.VehicleId
+                    });
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }

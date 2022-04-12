@@ -37,7 +37,7 @@ namespace Transport_Company
             Vehicles veh = new Vehicles();
             foreach (var vehicle in veh.getVehicle.Values.ToList())
             {
-                Vehicle model = new Vehicle();
+                VehicleModel model = new VehicleModel();
                 model.Name = vehicle.Item1;
                 model.Speed = vehicle.Item2;
                 model.Carrying = vehicle.Item3;
@@ -63,7 +63,7 @@ namespace Transport_Company
             {
                 FormOrder form = new FormOrder();
                 form.ShowDialog();
-                if(form.DialogResult==DialogResult.OK)
+                if (form.DialogResult == DialogResult.OK)
                 {
                     loadData();
                 }
@@ -124,6 +124,13 @@ namespace Transport_Company
             int? id = Int32.Parse(dataGridView1.SelectedRows[0].Cells[0].Value.ToString());
             changeStatusLogic.DeliveryPayed(new ChangeStatusBind { OrderId = id });
             loadData();
+        }
+
+        private void btnCheckCargo_Click(object sender, EventArgs e)
+        {
+            int? id = Int32.Parse(dataGridView1.SelectedRows[0].Cells[0].Value.ToString());
+            FormCheckCargo form = new FormCheckCargo(id);
+            form.ShowDialog();
         }
     }
 }

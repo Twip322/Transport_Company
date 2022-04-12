@@ -83,16 +83,19 @@ namespace Controller.Logic
                 .FirstOrDefault();
             }
         }
-        public CargoModel ReadLast()
+       
+        public List<CargoModel> ReadByOrder(Order order)
         {
             using (var context = new DataBase.DataBaseContext())
             {
                 return context.Cargos
+                .Where(rec => rec.Order == order)
                 .Select(rec => new CargoModel
                 {
-                    Id = rec.Id
+                    Name = rec.Name,
+                    Weight = rec.Weight,
                 })
-                .Last();
+                .ToList();
             }
         }
     }

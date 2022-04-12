@@ -42,6 +42,7 @@
             this.btnAccepted = new System.Windows.Forms.Button();
             this.btnDelivered = new System.Windows.Forms.Button();
             this.btnPayed = new System.Windows.Forms.Button();
+            this.btnCheckCargo = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -101,7 +102,7 @@
             // 
             // btnInDelivery
             // 
-            this.btnInDelivery.Location = new System.Drawing.Point(742, 214);
+            this.btnInDelivery.Location = new System.Drawing.Point(742, 266);
             this.btnInDelivery.Name = "btnInDelivery";
             this.btnInDelivery.Size = new System.Drawing.Size(202, 23);
             this.btnInDelivery.TabIndex = 5;
@@ -148,7 +149,7 @@
             // 
             // btnAccepted
             // 
-            this.btnAccepted.Location = new System.Drawing.Point(742, 185);
+            this.btnAccepted.Location = new System.Drawing.Point(742, 237);
             this.btnAccepted.Name = "btnAccepted";
             this.btnAccepted.Size = new System.Drawing.Size(202, 23);
             this.btnAccepted.TabIndex = 10;
@@ -158,7 +159,7 @@
             // 
             // btnDelivered
             // 
-            this.btnDelivered.Location = new System.Drawing.Point(742, 243);
+            this.btnDelivered.Location = new System.Drawing.Point(742, 295);
             this.btnDelivered.Name = "btnDelivered";
             this.btnDelivered.Size = new System.Drawing.Size(202, 23);
             this.btnDelivered.TabIndex = 11;
@@ -168,7 +169,7 @@
             // 
             // btnPayed
             // 
-            this.btnPayed.Location = new System.Drawing.Point(742, 272);
+            this.btnPayed.Location = new System.Drawing.Point(742, 324);
             this.btnPayed.Name = "btnPayed";
             this.btnPayed.Size = new System.Drawing.Size(202, 23);
             this.btnPayed.TabIndex = 12;
@@ -176,11 +177,22 @@
             this.btnPayed.UseVisualStyleBackColor = true;
             this.btnPayed.Click += new System.EventHandler(this.btnPayed_Click);
             // 
+            // btnCheckCargo
+            // 
+            this.btnCheckCargo.Location = new System.Drawing.Point(742, 180);
+            this.btnCheckCargo.Name = "btnCheckCargo";
+            this.btnCheckCargo.Size = new System.Drawing.Size(202, 23);
+            this.btnCheckCargo.TabIndex = 13;
+            this.btnCheckCargo.Text = "Посмотреть груз";
+            this.btnCheckCargo.UseVisualStyleBackColor = true;
+            this.btnCheckCargo.Click += new System.EventHandler(this.btnCheckCargo_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(944, 541);
+            this.Controls.Add(this.btnCheckCargo);
             this.Controls.Add(this.btnPayed);
             this.Controls.Add(this.btnDelivered);
             this.Controls.Add(this.btnAccepted);
@@ -222,6 +234,7 @@
         private System.Windows.Forms.Button btnAccepted;
         private System.Windows.Forms.Button btnDelivered;
         private System.Windows.Forms.Button btnPayed;
+        private System.Windows.Forms.Button btnCheckCargo;
     }
 }
 

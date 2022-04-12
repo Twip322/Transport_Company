@@ -9,6 +9,7 @@ namespace Controller.Logic
     public class ChangeStatusLogic
     {
         private readonly OrderLogic orderLogic = new OrderLogic();
+        private readonly WorkerLogic workerLogic = new WorkerLogic();
         public void TakeOrderInWork(ChangeStatusBind changeStatusBind)
         {
             var order = orderLogic.Read(new OrderModel
@@ -84,6 +85,15 @@ namespace Controller.Logic
                 WorkerId = order.WorkerId,
                 Cargos = order.Cargos,
                 orderEnum = OrderEnum.Доставлен
+            });
+            var worker = workerLogic.ReadById(order.WorkerId);
+            workerLogic.CreateOrUpdate(new WorkerModel
+            {
+                Id = worker.Id,
+                Name = worker.Name,
+                Surname = worker.Surname,
+                IsFree = true,
+                VehicleId = worker.VehicleId
             });
         }
         public void DeliveryPayed(ChangeStatusBind changeStatusBind)
